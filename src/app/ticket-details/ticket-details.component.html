@@ -1,0 +1,47 @@
+<div class="header">
+  <span class="back-button" [routerLink]="['']">BACK TO LIST</span>
+</div>
+<div *ngIf="addPendingStatus$ | async as pending">
+  <div *ngIf="pending.pending === true || formBlocked">
+    <div class="lds-roller">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <div *ngIf="pending.pending === false && !formBlocked">
+    <div *ngIf="pending.response as ticket">
+      <form [formGroup]="changeForm">
+        <p>Ticked ID: {{ ticket.id }}</p>
+        <p>Ticket Description: {{ ticket.description }}</p>
+        Ticket Assignee:
+        <input
+          type="text"
+          value="{{ ticket.assigneeId }}"
+          formControlName="user"
+          required
+        />
+        <p>Ticket Completed: {{ ticket.completed }}</p>
+      </form>
+
+      <button
+        class="change-user-button"
+        type="submit"
+        (click)="userChangeHandler()"
+      >
+        Change User
+      </button>
+      <button class="complete-button" (click)="completeChangeHandler()">
+        Complete
+      </button>
+      <div style="color: red" *ngIf="errorMessage !== ''">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</div>

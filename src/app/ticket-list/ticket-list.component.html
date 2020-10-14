@@ -1,0 +1,73 @@
+<div class="header">
+  <form [formGroup]="form">
+    <label>
+      <input type="radio" value="Assignee" formControlName="filter" />
+      <span>Assignee</span>
+    </label>
+    <label>
+      <input type="radio" value="Completed" formControlName="filter" />
+      <span>Completed</span>
+    </label>
+    <label>
+      <input type="radio" value="All" formControlName="filter" />
+      <span>All</span>
+    </label>
+    <label>
+      <div>
+        <span>User ID:</span>
+        <input type="text" value="" formControlName="user" />
+      </div>
+    </label>
+  </form>
+</div>
+<div *ngIf="addPendingStatus$ | async as pending">
+  <div *ngIf="pending.pending === true">
+    <div class="lds-roller">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <div class="container" *ngIf="!pending.pending">
+    <div
+      class="ticket"
+      *ngFor="let ticket of pending.response"
+      [routerLink]="['/ticket', ticket.id]"
+    >
+      <div class="ticket-container">
+        <p>Task ID: {{ ticket.id }}</p>
+        <p>User ID: {{ ticket.assigneeId }}</p>
+        <p>Description: {{ ticket.description }}</p>
+        <p>Completed: {{ ticket.completed }}</p>
+      </div>
+    </div>
+    <div *ngIf="pending.response.length === 0">
+      <h1>Here is no tasks, go away!</h1>
+    </div>
+  </div>
+</div>
+<hr class="dashed" />
+<div>
+  <form [formGroup]="newTaskForm">
+    <p>Add new Task:</p>
+    <div>
+      <span>Description:</span><br />
+      <input type="text" value="" formControlName="description" />
+    </div>
+    <div>
+      <button
+        type="submit"
+        class="add-button"
+        (click)="onSubmit()"
+        [disabled]="buttonPending"
+      >
+        Add
+      </button>
+    </div>
+  </form>
+</div>
