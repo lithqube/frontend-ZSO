@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "frontend-zso"
+    }
+  },
+  "defaultProject": "frontend-zso",
+  "cli": {
+    "analytics": false
+  }
 }
